@@ -1,0 +1,11 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+XPath.pm
+t/01_basics.t
+t/02_paths.t
+t/03_funcs.t
+t/04_subrules.t
+t/05_subtests.t
+t/06_recurse.t
