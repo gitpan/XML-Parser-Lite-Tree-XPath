@@ -1,10 +1,11 @@
+use 5.008;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
 	'NAME'		=> 'XML::Parser::Lite::Tree::XPath',
-	'VERSION_FROM'	=> 'XPath.pm',
+	'VERSION_FROM'	=> 'lib/XML/Parser/Lite/Tree/XPath.pm',
 	'PREREQ_PM'	=> {
-				'XML::Parser::Lite::Tree' => 0,
-				'Test::Simple',
-			},
+		Test::More	=> 0,
+		XML::Parser::Lite::Tree	=> 0,
+	},
 );
