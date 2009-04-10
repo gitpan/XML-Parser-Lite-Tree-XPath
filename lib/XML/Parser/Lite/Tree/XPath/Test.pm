@@ -10,7 +10,15 @@ use Data::Dumper;
 
 require Exporter;
 @ISA    = qw(Exporter);
-@EXPORT = qw(set_xml test_tree test_nodeset test_number test_string);
+@EXPORT = qw(
+	set_xml
+	test_tree
+	test_nodeset
+	test_number
+	test_string
+	test_error
+	test_boolean
+);
 
 our $xpath;
 
@@ -20,7 +28,8 @@ sub set_xml {
 	$xml =~ s/>\s+</></sg;
 	$xml =~ s/^\s*(.*?)\s*$/$1/;
 
-	my $tree = XML::Parser::Lite::Tree::instance()->parse($xml);
+	my $parser = new XML::Parser::Lite::Tree(process_ns => 1);
+	my $tree = $parser->parse($xml);
 	$xpath = new XML::Parser::Lite::Tree::XPath($tree);
 }
 
@@ -196,6 +205,57 @@ sub test_string {
 		ok($ret->{value} eq $expected);
 
 		if ($ret->{value} ne $expected){
+			print "# expected $expected, got $ret->{value}\n";
+		}
+	}else{
+		print "# got a $ret->{type} result\n";
+		ok(0);
+	}
+}
+
+sub test_error {
+	my ($path, $expected) = @_;
+
+	my $ret = $xpath->query($path);
+
+	if ($ret){
+		print "# no error - but we expected one!\n";
+		ok(0);
+	}else{
+		if ($xpath->{error} =~ $expected){
+
+			ok(1);
+		}else{
+			print "# wrong error\n";
+			print "#     expected: $expected\n";
+			print "#          got: $xpath->{error}\n";
+			ok(0);
+		}
+	}
+}
+
+sub test_boolean {
+	my ($path, $expected) = @_;
+
+	my $ret = $xpath->query($path);
+
+	if (!$ret){
+		print "Error: $xpath->{error}\n";
+		ok(0);
+		ok(0);
+		return;
+	}
+
+	ok($ret->{type} eq 'boolean');
+
+	if ($ret->{type} eq 'boolean'){
+		my $ok = 0;
+		$ok = 1 if $expected && $ret->{value};
+		$ok = 1 if !$expected && !$ret->{value};
+
+		ok($ok);
+
+		unless ($ok){
 			print "# expected $expected, got $ret->{value}\n";
 		}
 	}else{
