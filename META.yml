@@ -1,11 +1,14 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         XML-Parser-Lite-Tree-XPath
-version:      0.22
-version_from: lib/XML/Parser/Lite/Tree/XPath.pm
-installdirs:  site
-requires:
-    XML::Parser::Lite::Tree:       0.06
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.30
+--- #YAML:1.0
+name:                XML-Parser-Lite-Tree-XPath
+version:             0.23
+abstract:            ~
+license:             ~
+author:              ~
+generated_by:        ExtUtils::MakeMaker version 6.42
+distribution_type:   module
+requires:     
+    Test::More:                    0
+    XML::Parser::Lite::Tree:       0.1
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.3.html
+    version: 1.3
